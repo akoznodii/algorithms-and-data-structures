@@ -47,39 +47,5 @@ namespace DataStructures
             PostOrderTraversal(node.Right, visitAction);
             visitAction(node.Value);
         }
-
-        public static void BinarySearchTreeInsert<T>(this BinaryTreeNode<T> node, T value) where T : IComparable<T>
-        {
-            Contract.Requires(node != null);
-
-            var result = value.CompareTo(node.Value);
-
-            if (result == 0)
-            {
-                return;
-            }
-            else if (result == -1)
-            {
-                if (node.Left == null)
-                {
-                    node.AddLeft(value);
-                }
-                else
-                {
-                    BinarySearchTreeInsert(node.Left, value);
-                }
-            }
-            else
-            {
-                if (node.Right == null)
-                {
-                    node.AddRight(value);
-                }
-                else
-                {
-                    BinarySearchTreeInsert(node.Right, value);
-                }
-            }
-        }
     }
 }

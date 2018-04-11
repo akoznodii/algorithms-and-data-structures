@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DataStructures.Tests
@@ -29,20 +30,42 @@ namespace DataStructures.Tests
         [TestMethod]
         public void BinarySearchTreeTest()
         {
-            var array = new int[] { 4, 3, 6, 1, 2, 8, 7 };
+            var array = new List<int> { 4, 3, 6, 1, 2, 8, 7, 10, 9, 12, 11 };
 
             var root = new BinaryTreeNode<int>(array[0], null);
             var idx = 1;
 
-            for (idx = 1; idx < array.Length; idx++)
+            for (idx = 1; idx < array.Count; idx++)
             {
-                root.BinarySearchTreeInsert(array[idx]);
+                root.Insert(array[idx]);
             }
 
-            var expected = array.OrderBy(i => i).ToArray();
+            var expected = array.OrderBy(i => i).ToList();
 
             idx = 0;
             root.InOrderTraversal((value) => { Assert.AreEqual<int>(expected[idx], value); idx++; });
+
+            var minimum = root.Minimum();
+
+            Assert.AreEqual(1, minimum);
+
+            var maximum = root.Maximum();
+
+            Assert.AreEqual(12, maximum);
+
+            DeleteBinarySearchTree(root, 8, expected);
+            DeleteBinarySearchTree(root, 2, expected);
+            DeleteBinarySearchTree(root, 9, expected);
+        }
+
+        private void DeleteBinarySearchTree(BinaryTreeNode<int> root, int value, IList<int> expected)
+        {
+            root.Delete(value);
+
+            expected.Remove(value);
+
+            var idx = 0;
+            root.InOrderTraversal((v) => { Assert.AreEqual<int>(expected[idx], v); idx++; });
         }
     }
 }
