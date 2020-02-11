@@ -13,7 +13,7 @@ namespace DataStructures
             _childern = new List<TreeNode<T>>();
         }
 
-        public TreeNode<T> Parent { get; }
+        public TreeNode<T> Parent { get; set; }
 
         public T Value { get; }
 
