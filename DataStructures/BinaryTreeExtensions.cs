@@ -48,6 +48,95 @@ namespace DataStructures
             visitAction(node.Value);
         }
 
+        public static BinaryTreeNode<T> FindMaximum<T>(this BinaryTreeNode<T> node)
+        {
+            if (node == null) throw new ArgumentNullException();
+
+            if (node.Right == null)
+            {
+                return node;
+            }
+
+            return FindMaximum<T>(node.Right);
+        }
+        
+        public static BinaryTreeNode<T> FindMinimum<T>(this BinaryTreeNode<T> node)
+        {
+            if (node == null) throw new ArgumentNullException();
+
+            if (node.Left == null)
+            {
+                return node;
+            }
+
+            return FindMinimum<T>(node.Left);
+        }
+        
+        public static BinaryTreeNode<T> Successor<T>(this BinaryTreeNode<T> node)
+        {
+            if (node == null) throw new ArgumentNullException(nameof(node));
+            
+            if (node.Right != null)
+            {
+                return FindMaximum(node.Right);
+            }
+
+            var parent = node.Parent as BinaryTreeNode<T>;
+
+            while (parent != null && node != parent.Left)
+            {
+                node = parent;
+                parent = node.Parent as BinaryTreeNode<T>;
+            }
+
+            return parent;
+        }
+        
+        
+        public static BinaryTreeNode<T> Predecessor<T>(this BinaryTreeNode<T> node)
+        {
+            if (node == null) throw new ArgumentNullException(nameof(node));
+            
+            if (node.Left != null)
+            {
+                return FindMaximum(node.Left);
+            }
+
+            var parent = node.Parent as BinaryTreeNode<T>;
+
+            while (parent != null && node != parent.Right)
+            {
+                node = parent;
+                parent = node.Parent as BinaryTreeNode<T>;
+            }
+
+            return parent;
+        }
+
+        public static BinaryTreeNode<T> Search<T>(this BinaryTreeNode<T> node, T value) where T : IComparable<T>
+        {
+            var result = value.CompareTo(node.Value);
+
+            if (result == 0)
+            {
+                return node;
+            } 
+            
+            if (result == -1)
+            {
+                if (node.Left != null)
+                {
+                    return Search<T>(node.Left, value);
+                }
+            }
+            else if (node.Right != null)
+            {
+                return Search<T>(node.Right, value);
+            }
+            
+            return null;
+        }
+        
         public static void BinarySearchTreeInsert<T>(this BinaryTreeNode<T> node, T value) where T : IComparable<T>
         {
             Contract.Requires(node != null);

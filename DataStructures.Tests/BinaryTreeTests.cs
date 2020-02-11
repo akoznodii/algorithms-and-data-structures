@@ -43,6 +43,24 @@ namespace DataStructures.Tests
 
             idx = 0;
             root.InOrderTraversal((value) => { Assert.AreEqual<int>(expected[idx], value); idx++; });
+            
+            Assert.AreEqual(8, root.FindMaximum().Value);
+            Assert.AreEqual(1, root.FindMinimum().Value);
+
+            var node = root.Search(7);
+            
+            Assert.IsNotNull(node);
+            Assert.AreEqual(7, node.Value);
+
+            var predecessor = node.Predecessor();
+            
+            Assert.IsNotNull(predecessor);
+            Assert.AreEqual(6, predecessor.Value);
+
+            var successor = node.Successor();
+            
+            Assert.IsNotNull(successor);
+            Assert.AreEqual(8, successor.Value);
         }
     }
 }
